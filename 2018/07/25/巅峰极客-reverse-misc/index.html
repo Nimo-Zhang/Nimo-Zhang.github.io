@@ -17,7 +17,7 @@
 <meta property="og:description" content="弱鸡的成长之路，T.T">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://note.youdao.com/yws/res/17834/35CEC78D9E9547C39FCC33C7EF65A2E0">
-<meta property="og:updated_time" content="2018-07-26T03:00:29.246Z">
+<meta property="og:updated_time" content="2018-07-26T03:01:39.505Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="巅峰极客 reverse&#x2F;misc">
 <meta name="twitter:description" content="弱鸡的成长之路，T.T">
@@ -192,18 +192,9 @@
 <h3 id="misc-warmup"><a href="#misc-warmup" class="headerlink" title="misc-warmup"></a>misc-warmup</h3><p><img src="http://note.youdao.com/yws/res/17834/35CEC78D9E9547C39FCC33C7EF65A2E0" alt="image"><br>直接stegsolve工具查看，当时一层层查看图片时，觉得奇怪的地方有两处，一是图片上方感觉和其他部分不太一样，二是感觉图片中有些层感觉像是条形码。当时看LSB时，不知道Ook这些是什么，然后就没往这个方向去看，然后傻傻的走上了条形码的图，在那扫。。。。</p>
 <p>看了别人的writeup才发现自己有多菜，才知道原来有Brainfuck/Ook!这种东西。知道这个就不难了，二进制提取LSB数据，然后使用<a href="https://www.splitbrain.org/services/ook" target="_blank" rel="noopener">网站</a>解密,三个通道解密完成即可得到flag。</p>
 <p>补充知识：Brainfuck是一种极小化的计算机语言。而Ook也是一种类似的编程语言。<br>Brainfuck解析规则：</p>
-<ul>
-<li><blockquote>
-<p>: 指针位置右移一位</p>
+<blockquote>
+<p>: 指针位置右移一位<br>&lt;: 指针位置左移一位<br>+: 指针所指向的位置里面的值加1<br>-: 指针所指向的位置里面的值减1<br>. :输出指针当前位置指向单元格中的内容<br>[: 如果指针指向的单元值为零，向后跳转到对应的]指令的次一指令处<br>]:如果指针指向的单元值不为零，向前跳转到对应的[指令的次一指令处</p>
 </blockquote>
-</li>
-<li>&lt;: 指针位置左移一位</li>
-<li>+: 指针所指向的位置里面的值加1</li>
-<li>-: 指针所指向的位置里面的值减1</li>
-<li>. :输出指针当前位置指向单元格中的内容</li>
-<li>[: 如果指针指向的单元值为零，向后跳转到对应的]指令的次一指令处</li>
-<li>]:如果指针指向的单元值不为零，向前跳转到对应的[指令的次一指令处</li>
-</ul>
 
       
 
