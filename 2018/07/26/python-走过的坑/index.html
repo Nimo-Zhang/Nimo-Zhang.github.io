@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>python--走过的坑 | Nimo-Zhang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="w&amp;amp;wb在做misc杂项的时候，根据hint知道是将图片内容异或，当时已经将多余的图片提取出来了，在网上找了代码将图片与0xff异或，然后异或后发现图片一直为黑色，当时也没多想，查看其二进制格式后，发现文件头不对，就修改了文件头，但还是为黑色。 看了别人的writeup时，发现自己的思路没错，用别人的代码异或后，发现了黑白格子图片，而自己的依然始终为黑色。这才发现自己的代码有错，异或后的文">
+  <meta name="description" content="python中’w’和’wb’遇到的坑">
 <meta name="keywords" content="CTF">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python--走过的坑">
 <meta property="og:url" content="http://yoursite.com/2018/07/26/python-走过的坑/index.html">
 <meta property="og:site_name" content="Nimo-Zhang的博客">
-<meta property="og:description" content="w&amp;amp;wb在做misc杂项的时候，根据hint知道是将图片内容异或，当时已经将多余的图片提取出来了，在网上找了代码将图片与0xff异或，然后异或后发现图片一直为黑色，当时也没多想，查看其二进制格式后，发现文件头不对，就修改了文件头，但还是为黑色。 看了别人的writeup时，发现自己的思路没错，用别人的代码异或后，发现了黑白格子图片，而自己的依然始终为黑色。这才发现自己的代码有错，异或后的文">
+<meta property="og:description" content="python中’w’和’wb’遇到的坑">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-26T02:19:34.783Z">
+<meta property="og:updated_time" content="2018-07-26T02:37:50.239Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python--走过的坑">
-<meta name="twitter:description" content="w&amp;amp;wb在做misc杂项的时候，根据hint知道是将图片内容异或，当时已经将多余的图片提取出来了，在网上找了代码将图片与0xff异或，然后异或后发现图片一直为黑色，当时也没多想，查看其二进制格式后，发现文件头不对，就修改了文件头，但还是为黑色。 看了别人的writeup时，发现自己的思路没错，用别人的代码异或后，发现了黑白格子图片，而自己的依然始终为黑色。这才发现自己的代码有错，异或后的文">
+<meta name="twitter:description" content="python中’w’和’wb’遇到的坑">
   
     <link rel="alternative" href="/atom.xml" title="Nimo-Zhang的博客" type="application/atom+xml">
   
@@ -181,7 +181,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="w-amp-wb"><a href="#w-amp-wb" class="headerlink" title="w&amp;wb"></a>w&amp;wb</h3><p>在做misc杂项的时候，根据hint知道是将图片内容异或，当时已经将多余的图片提取出来了，在网上找了代码将图片与0xff异或，然后异或后发现图片一直为黑色，当时也没多想，查看其二进制格式后，发现文件头不对，就修改了文件头，但还是为黑色。</p>
+        <blockquote>
+<p>python中’w’和’wb’遇到的坑</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="w-amp-wb"><a href="#w-amp-wb" class="headerlink" title="w&amp;wb"></a>w&amp;wb</h3><p>在做misc杂项的时候，根据hint知道是将图片内容异或，当时已经将多余的图片提取出来了，在网上找了代码将图片与0xff异或，然后异或后发现图片一直为黑色，当时也没多想，查看其二进制格式后，发现文件头不对，就修改了文件头，但还是为黑色。</p>
 <p>看了别人的writeup时，发现自己的思路没错，用别人的代码异或后，发现了黑白格子图片，而自己的依然始终为黑色。这才发现自己的代码有错，异或后的文件长度增加了几个字节。</p>
 <p>查了半天，才知道是w和wb的问题，自己之前没注意到这里。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 原始代码</span><br><span class="line">a=open(&apos;1.txt&apos;,&apos;rb&apos;).read()</span><br><span class="line">print len(a)</span><br><span class="line">cmpf=open(&apos;2.txt&apos;,&apos;w&apos;)</span><br><span class="line">xor=&apos;&apos;</span><br><span class="line">for i in range(0,len(a)):</span><br><span class="line">	aa = ord(a[i])^0xff</span><br><span class="line">	xor += chr(aa) </span><br><span class="line">cmpf.write(xor)</span><br><span class="line">cmpf.close()</span><br></pre></td></tr></table></figure>
