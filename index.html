@@ -161,6 +161,93 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-python-走过的坑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/26/python-走过的坑/">python--走过的坑</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/26/python-走过的坑/" class="archive-article-date">
+  	<time datetime="2018-07-26T01:46:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="w-amp-wb"><a href="#w-amp-wb" class="headerlink" title="w&amp;wb"></a>w&amp;wb</h3><p>在做misc杂项的时候，根据hint知道是将图片内容异或，当时已经将多余的图片提取出来了，在网上找了代码将图片与0xff异或，然后异或后发现图片一直为黑色，当时也没多想，查看其二进制格式后，发现文件头不对，就修改了文件头，但还是为黑色。</p>
+<p>看了别人的writeup时，发现自己的思路没错，用别人的代码异或后，发现了黑白格子图片，而自己的依然始终为黑色。这才发现自己的代码有错，异或后的文件长度增加了几个字节。</p>
+<p>查了半天，才知道是w和wb的问题，自己之前没注意到这里。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 原始代码</span><br><span class="line">a=open(&apos;1.txt&apos;,&apos;rb&apos;).read()</span><br><span class="line">print len(a)</span><br><span class="line">cmpf=open(&apos;2.txt&apos;,&apos;w&apos;)</span><br><span class="line">xor=&apos;&apos;</span><br><span class="line">for i in range(0,len(a)):</span><br><span class="line">	aa = ord(a[i])^0xff</span><br><span class="line">	xor += chr(aa) </span><br><span class="line">cmpf.write(xor)</span><br><span class="line">cmpf.close()</span><br></pre></td></tr></table></figure>
+<p>发现当txt中为0xf5的时候，异或后写入文件的居然为两个字符，为0x0D0A。</p>
+<p>网上已经有人说了为什么了，这里自己做个笔记，也算是给自己一个教训。</p>
+<p>总结：</p>
+<ul>
+<li>w是以文本方式打开文件，wb是以二进制方式打开文件</li>
+<li>0x0A LF 表示换行， 0x0D CR表示回车， 0x1A SUB在文本文件中表示文件结束</li>
+<li>使用’r’进行读取二进制文件时，可能会出现文档读取不全的现象。 因为在python中读文件时，读到文档结束符(EOF)就认为是读到文件最后，python遇到0x1A字节就会以为文档结束。</li>
+<li>在windows中，0x0A表示换行，如果以文本方式打开文件向文件中写入数据，遇到0x0A会自动将其转为两个字符’0x0D’,’0x0A’。所以这也是为什么导致当时异或后的结果数据长度变长的原因。因为0xf5异或后为0x0a，然后自己当时的代码在写文件时是以’w’的方式来写的，所以将其转为了’0x0D’和’0x0A’。在linux上运行程序不会出现这个问题，因为linux只使用’0x0a’来表示换行。</li>
+</ul>
+<p>在读写文件要注意保持前后一致。不管是文本文件还是二进制文件统一采用二进制进行读写不会出错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#正确代码</span><br><span class="line">a=open(&apos;1.txt&apos;,&apos;rb&apos;).read()</span><br><span class="line">print len(a)</span><br><span class="line">cmpf=open(&apos;2.txt&apos;,&apos;wb&apos;)</span><br><span class="line">xor=&apos;&apos;</span><br><span class="line">for i in range(0,len(a)):</span><br><span class="line">	aa = ord(a[i])^0xff</span><br><span class="line">	xor += chr(aa) </span><br><span class="line">cmpf.write(xor)</span><br><span class="line">cmpf.close()</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/26/python-走过的坑/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-巅峰极客-reverse-misc" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -406,11 +493,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color4">CTF</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">CTF</a>
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
             
             <div class="clearfix"></div>
