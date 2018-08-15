@@ -27,10 +27,10 @@
 <meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/9.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/10.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/11.png">
-<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/12.jpg">
-<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/13.jpg">
-<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/13.jpg">
-<meta property="og:updated_time" content="2018-08-15T11:07:02.595Z">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/12.JPG">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/13.JPG">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/13.JPG">
+<meta property="og:updated_time" content="2018-08-15T11:20:22.505Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="巅峰极客 reverse&#x2F;misc">
 <meta name="twitter:description" content="弱鸡的成长之路，T.T">
@@ -262,7 +262,7 @@
 <li>首先需要满足v5&lt;=v18这个条件，这里可以从截断和溢出两个角度进行考虑。</li>
 <li>其次要让v11等于0。</li>
 </ul>
-<p>第一个条件只要保证文件内容长度大于0x20即可。<br>接下来进入到while循环，可以看到这里有3次计算。以v14+i作为索引来引出函数，分别对应函数func0，func1，func2。<br><img src="/2018/07/25/2018-7-21-巅峰极客/12.jpg" alt="func0"><br><img src="/2018/07/25/2018-7-21-巅峰极客/13.jpg" alt="func1"><br><img src="/2018/07/25/2018-7-21-巅峰极客/13.jpg" alt="func2"><br>func0函数作用用于交换两个值，而func1和func2则进行了计算。<br>要使v11等于0则意味着func2函数计算结果为0，而func2=abs(a)-abs(a+b)+abs(b)+2，要该函数计算结果为0显然不行。func1=abs(a+b)-abs(a)-abs(b)+2，这个函数能够构造出使func1函数返回为0的输入值，即其中一个数为-1。<br>由于func1和func2函数的调用都是通过func0加偏移来进行调用，可以使用func0交换v8[7]和v8[8]。</p>
+<p>第一个条件只要保证文件内容长度大于0x20即可。<br>接下来进入到while循环，可以看到这里有3次计算。以v14+i作为索引来引出函数，分别对应函数func0，func1，func2。<br><img src="/2018/07/25/2018-7-21-巅峰极客/12.JPG" alt="func0"><br><img src="/2018/07/25/2018-7-21-巅峰极客/13.JPG" alt="func1"><br><img src="/2018/07/25/2018-7-21-巅峰极客/13.JPG" alt="func2"><br>func0函数作用用于交换两个值，而func1和func2则进行了计算。<br>要使v11等于0则意味着func2函数计算结果为0，而func2=abs(a)-abs(a+b)+abs(b)+2，要该函数计算结果为0显然不行。func1=abs(a+b)-abs(a)-abs(b)+2，这个函数能够构造出使func1函数返回为0的输入值，即其中一个数为-1。<br>由于func1和func2函数的调用都是通过func0加偏移来进行调用，可以使用func0交换v8[7]和v8[8]。</p>
 <p>step1：交换两个值。func0函数中传入参数需保证v12 v13为7 8或8 7。fucn0执行完成返回1，v8+1=1。<br>step2：由于进行了交换，执行完func0函数后将执行func2函数。func2传入参数为v12=1，v13=2。func2函数执行完成后返回值位于v8+2。<br>step3：执行func1函数，要使其返回值为0。此时传入参数v12=2，v13=3。要使v11=0，即func1函数执行结果为0，func2中是对v8+2、v8+3两个函数进行运算，因此可以将v8+3覆盖为-1。</p>
 <p>构造<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b&quot;0&quot;*(20+4*3) + b&quot;\xff\xff\xff\xff&quot; + b&quot;\x07\x00\x00\x00&quot; + b&quot;\x08\x00\x00\x00&quot;</span><br></pre></td></tr></table></figure></p>
 <p>得到flag: 8cda1bdba8b7b68b68a8b71bdb8cda`</p>
