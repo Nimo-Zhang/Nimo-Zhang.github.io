@@ -16,21 +16,21 @@
 <meta property="og:site_name" content="Nimo-Zhang的博客">
 <meta property="og:description" content="弱鸡的成长之路，T.T">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://note.youdao.com/yws/res/17891/94FC5FC35A2140AD9BF1AB7DF81B90ED">
-<meta property="og:image" content="http://note.youdao.com/yws/res/17893/5B650FB0A4C4447488C7DDD893E83A71">
-<meta property="og:image" content="http://note.youdao.com/yws/res/17896/5964470D00C9453186F14F1711D2D2B8">
-<meta property="og:image" content="http://note.youdao.com/yws/res/17898/B4258DB2381A4D6F8EA1FD25B64F6113">
-<meta property="og:image" content="http://note.youdao.com/yws/res/17900/E96CAC73D2674D32A161752B1A98DBAA">
-<meta property="og:image" content="http://note.youdao.com/yws/res/17902/EDBDBA78A58645F095C3FC87728CF4AA">
-<meta property="og:image" content="http://note.youdao.com/yws/res/17904/0761589B22E244A3B412095B71A5C192">
-<meta property="og:image" content="http://note.youdao.com/yws/res/17906/4EDF30FA646E405A96D8837CA3514C32">
-<meta property="og:image" content="http://note.youdao.com/yws/res/17911/228664049B4043A7B73A4C22AC5A733C">
-<meta property="og:image" content="http://note.youdao.com/yws/res/17910/BFF0EE1AE3EB499086212519D4FAF9E0">
-<meta property="og:updated_time" content="2018-08-15T02:24:29.585Z">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/3.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/4.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/5.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/6.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/7.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/8.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/9.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/10.png">
+<meta property="og:updated_time" content="2018-08-15T02:33:23.306Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="巅峰极客 reverse&#x2F;misc">
 <meta name="twitter:description" content="弱鸡的成长之路，T.T">
-<meta name="twitter:image" content="http://note.youdao.com/yws/res/17891/94FC5FC35A2140AD9BF1AB7DF81B90ED">
+<meta name="twitter:image" content="http://yoursite.com/2018/07/25/2018-7-21-巅峰极客/1.png">
   
     <link rel="alternative" href="/atom.xml" title="Nimo-Zhang的博客" type="application/atom+xml">
   
@@ -237,19 +237,19 @@
 <li>base16编码是用16（2的4次方）个字符对二进制数据进行编码</li>
 </ul>
 <p>运行文件，要求输入flag，输入长度较长时提示sorry，短时直接退出交互。</p>
-<p>拖入IDA文件进行分析，拖入时看到IDA中出现信息如下：<br><img src="http://note.youdao.com/yws/res/17891/94FC5FC35A2140AD9BF1AB7DF81B90ED" alt="image"><br>可以看到base32字样信息。</p>
-<p>从输出结果倒推进行分析<br><img src="http://note.youdao.com/yws/res/17893/5B650FB0A4C4447488C7DDD893E83A71" alt="image"><br>可以看到核心函数主要是sub_4012c0()和sub_401310()。</p>
-<p>进入sub_401310查看函数逻辑，可以看到其中含有另一个函数sub_401170函数。<br><img src="http://note.youdao.com/yws/res/17896/5964470D00C9453186F14F1711D2D2B8" alt="image"></p>
-<p>进入sub_401170函数，这里就比较明显。可以看到其中含有“==”，以及一些取位的操作（&amp;0x1F转为二进制就是在取5位二进制数据）<br><img src="http://note.youdao.com/yws/res/17898/B4258DB2381A4D6F8EA1FD25B64F6113" alt="image"><br>对应到base家族系列编码函数，这里的操作就很像是在查表了，其中的dword_40507c很像是表，而后面的<code>+ ((v9 &gt;&gt; 25) &amp; 0x1F)</code>则是取二进制数据的5位然后得到索引查询编码表中的数据。</p>
+<p>拖入IDA文件进行分析，拖入时看到IDA中出现信息如下：<br><img src="/2018/07/25/2018-7-21-巅峰极客/1.png" alt="IDA提示"><br>可以看到base32字样信息。</p>
+<p>从输出结果倒推进行分析<br><img src="/2018/07/25/2018-7-21-巅峰极客/2.png" alt="image"><br>可以看到核心函数主要是sub_4012c0()和sub_401310()。</p>
+<p>进入sub_401310查看函数逻辑，可以看到其中含有另一个函数sub_401170函数。<br><img src="/2018/07/25/2018-7-21-巅峰极客/3.png" alt="image"></p>
+<p>进入sub_401170函数，这里就比较明显。可以看到其中含有“==”，以及一些取位的操作（&amp;0x1F转为二进制就是在取5位二进制数据）<br><img src="/2018/07/25/2018-7-21-巅峰极客/4.png" alt="image"><br>对应到base家族系列编码函数，这里的操作就很像是在查表了，其中的dword_40507c很像是表，而后面的<code>+ ((v9 &gt;&gt; 25) &amp; 0x1F)</code>则是取二进制数据的5位然后得到索引查询编码表中的数据。</p>
 <h4 id="补充知识-1"><a href="#补充知识-1" class="headerlink" title="补充知识"></a>补充知识</h4><blockquote>
 <p>这里的汇编中有个cdq指令，cdq(英文：Convert Double to Quad)指令的作用就是将双字数据扩展为四字，把edx扩展为eax的高位。<br>movsx:汇编语言数据传送指令MOV的变体，带符号扩展，并传送。当用更多的内存存储某一个有符号数时，由于符号位位于该数的第一位，扩展之后，符号位仍然需要位于第一位，所以，当扩展一个负数的时候需要将扩展的高位全置为1，对于正数而言，符号扩展和零扩展是一样的，符号位就是0。<br>movzx:先零扩展，再传送。零扩展就是全部补0，不论其符号位是多少，高8位全都补0。</p>
 </blockquote>
-<p>回溯到上一个函数sub_4012C0，其中有含有函数sub_401100,该函数有对dword_40507c的操作，当前dword_40507c为“ABCDEFGHIJKLMNOPQRSTUVWXYZ”<br><img src="http://note.youdao.com/yws/res/17900/E96CAC73D2674D32A161752B1A98DBAA" alt="image"><br>这里我是用动态调试获取到变换后的结果 NOPQRSTUVWXYZABCDEFGHIJKLM。<br><img src="http://note.youdao.com/yws/res/17902/EDBDBA78A58645F095C3FC87728CF4AA" alt="image"></p>
-<p>得到dword_40507c为“ABCDEFGHIJKLMNOPQRSTUVWXYZ”结果后，退回到上层函数sub_4012C0函数，<br><img src="http://note.youdao.com/yws/res/17904/0761589B22E244A3B412095B71A5C192" alt="image"><br>这里还有对dword_40507c进行操作的步骤，同样动态调试,得到结果NoPqRsTuVwXyZaBcDeFgHiJkLm567234。<br><img src="http://note.youdao.com/yws/res/17906/4EDF30FA646E405A96D8837CA3514C32" alt="image">。</p>
+<p>回溯到上一个函数sub_4012C0，其中有含有函数sub_401100,该函数有对dword_40507c的操作，当前dword_40507c为“ABCDEFGHIJKLMNOPQRSTUVWXYZ”<br><img src="/2018/07/25/2018-7-21-巅峰极客/5.png" alt="image"><br>这里我是用动态调试获取到变换后的结果 NOPQRSTUVWXYZABCDEFGHIJKLM。<br><img src="/2018/07/25/2018-7-21-巅峰极客/6.png" alt="image"></p>
+<p>得到dword_40507c为“ABCDEFGHIJKLMNOPQRSTUVWXYZ”结果后，退回到上层函数sub_4012C0函数，<br><img src="/2018/07/25/2018-7-21-巅峰极客/7.png" alt="image"><br>这里还有对dword_40507c进行操作的步骤，同样动态调试,得到结果NoPqRsTuVwXyZaBcDeFgHiJkLm567234。<br><img src="/2018/07/25/2018-7-21-巅峰极客/8.png" alt="image">。</p>
 <p>现在table有了，根据函数可以猜测是base32编码，因此就是做base32的逆向操作，求出使得编码后为weNTDk5LZsNRHk6cVogqTZmFy2NRP7X4ZHLTBZwg的输入。<br>需要注意的是在sub_401100函数中<code>%26</code>会使信息丢失，因此需要进行处理。<br>代码参考了<a href="https://kabeor.cn/2018%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E8%83%BD%E6%8C%91%E6%88%98%E8%B5%9B%20RE(1" target="_blank" rel="noopener">2018巅峰极客网络安全技能挑战赛 RE(1) Simple Base-N</a>%20Simple%20Base-N/)<br><a href="https://blog.csdn.net/whklhhhh/article/details/81155477" target="_blank" rel="noopener">180721 逆向-极客巅峰（Re）</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">import string</span><br><span class="line">import binascii</span><br><span class="line">import struct</span><br><span class="line">table= &quot;NoPqRsTuVwXyZaBcDeFgHiJkLm567234&quot;</span><br><span class="line">s_en = &quot;weNTDk5LZsNRHk6cVogqTZmFy2NRP7X4ZHLTBZwg&quot;</span><br><span class="line"></span><br><span class="line">def find(x):</span><br><span class="line">  if (x==&apos;=&apos;):</span><br><span class="line">    return 0</span><br><span class="line">  return table.index(x)</span><br><span class="line">result=&apos;&apos;</span><br><span class="line">for i in range(len(s_en)//8):</span><br><span class="line">  group = s_en[i*8:i*8+8]</span><br><span class="line">  t = 0</span><br><span class="line">  for j in group:</span><br><span class="line">     t = t&lt;&lt;5</span><br><span class="line">     t += find(j)</span><br><span class="line">  for j in range(5):</span><br><span class="line">    result+=chr((t&amp;0xff00000000)&gt;&gt;32)</span><br><span class="line">    t = t&lt;&lt;8</span><br><span class="line"></span><br><span class="line">print result</span><br><span class="line">for i in result:</span><br><span class="line">    v = ord(i)-ord(&apos;a&apos;)</span><br><span class="line">    if(v&gt;=0 and v&lt;26):</span><br><span class="line">        k = v+ord(&apos;T&apos;)</span><br><span class="line">        while(k&lt;=ord(&apos;a&apos;)):</span><br><span class="line">            k += 26</span><br><span class="line">        print(chr(k))</span><br><span class="line">    else:</span><br><span class="line">        v = ord(i) - ord(&apos;A&apos;)</span><br><span class="line">        if (v &gt;= 0 and v &lt; 26):</span><br><span class="line">            k = (v + ord(&apos;4&apos;))</span><br><span class="line">            while(k&lt;=ord(&apos;A&apos;)):</span><br><span class="line">                k += 26</span><br><span class="line">            print(chr(k))</span><br><span class="line">        else:</span><br><span class="line">            print(i)</span><br></pre></td></tr></table></figure></p>
 <p>运行后得到flag<code>flag{Y@u_Kn@W_b@s332_@Nd_r0t13}</code></p>
-<h3 id="RE-Input-your-lucky-number-string"><a href="#RE-Input-your-lucky-number-string" class="headerlink" title="RE-Input your lucky number_string"></a>RE-Input your lucky number_string</h3><p>通过分析，可以看到输入的整数最终被用到的只是一个字节，因此，可以采用爆破的方式获取整数，直到程序没有终止退出。<br><img src="http://note.youdao.com/yws/res/17911/228664049B4043A7B73A4C22AC5A733C" alt="image"></p>
-<p><img src="http://note.youdao.com/yws/res/17910/BFF0EE1AE3EB499086212519D4FAF9E0" alt="image"></p>
+<h3 id="RE-Input-your-lucky-number-string"><a href="#RE-Input-your-lucky-number-string" class="headerlink" title="RE-Input your lucky number_string"></a>RE-Input your lucky number_string</h3><p>通过分析，可以看到输入的整数最终被用到的只是一个字节，因此，可以采用爆破的方式获取整数，直到程序没有终止退出。<br><img src="/2018/07/25/2018-7-21-巅峰极客/9.png" alt="image"></p>
+<p><img src="/2018/07/25/2018-7-21-巅峰极客/10.png" alt="image"></p>
 <p><a href="http://www.reverse.dog/2018/07/22/%E6%9E%81%E5%AE%A2%E5%B7%85%E5%B3%B0/" target="_blank" rel="noopener">爆破代码参考</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import subprocess</span><br><span class="line">for i in range(0,0xff):</span><br><span class="line">  obj = subprocess.Popen([&quot;E:/CTF/7.21/re-lucky number/Input your lucky number_string.exe&quot;], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)</span><br><span class="line">  out,err=obj.communicate(input=&apos;%d\n&apos;%i)</span><br><span class="line">  obj.wait()</span><br><span class="line">  print out</span><br><span class="line">  obj.kill()</span><br></pre></td></tr></table></figure>
       
@@ -344,8 +344,8 @@
     </a>
   
   
-    <a href="/2018/07/25/巅峰极客-reverse-misc/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">巅峰极客 reverse/misc</div>
+    <a href="/2018/07/22/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">第一篇博客</div>
       <i class="icon-circle-right"></i>
     </a>
   
