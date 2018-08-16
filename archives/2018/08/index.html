@@ -6,20 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>python--走过的坑 | Nimo-Zhang的博客</title>
+  <title>Archives: 2018/8 | Nimo-Zhang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="python中’w’和’wb’遇到的坑">
-<meta name="keywords" content="随笔">
-<meta property="og:type" content="article">
-<meta property="og:title" content="python--走过的坑">
-<meta property="og:url" content="http://yoursite.com/2018/07/26/python-走过的坑/index.html">
+  <meta name="description" content="菜鸟一枚，想在二进制的路上远走高飞">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nimo-Zhang的博客">
+<meta property="og:url" content="http://yoursite.com/archives/2018/08/index.html">
 <meta property="og:site_name" content="Nimo-Zhang的博客">
-<meta property="og:description" content="python中’w’和’wb’遇到的坑">
+<meta property="og:description" content="菜鸟一枚，想在二进制的路上远走高飞">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-16T01:30:03.139Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python--走过的坑">
-<meta name="twitter:description" content="python中’w’和’wb’遇到的坑">
+<meta name="twitter:title" content="Nimo-Zhang的博客">
+<meta name="twitter:description" content="菜鸟一枚，想在二进制的路上远走高飞">
   
     <link rel="alternative" href="/atom.xml" title="Nimo-Zhang的博客" type="application/atom+xml">
   
@@ -161,52 +159,63 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-python-走过的坑" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      python--走过的坑
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/08/16/test-1/" class="archive-article-date">
+  	<time datetime="2018-08-16T01:36:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2018/08/16/test-1/">&#39;test&#39;</a>
     </h1>
   
 
-        
-        <a href="/2018/07/26/python-走过的坑/" class="archive-article-date">
-  	<time datetime="2018-07-26T01:46:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>python中’w’和’wb’遇到的坑</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="w-amp-wb"><a href="#w-amp-wb" class="headerlink" title="w&amp;wb"></a>w&amp;wb</h3><p>在做misc杂项的时候，根据hint知道是将图片内容异或，当时已经将多余的图片提取出来了，在网上找了代码将图片与0xff异或，然后异或后发现图片一直为黑色，当时也没多想，查看其二进制格式后，发现文件头不对，就修改了文件头，但还是为黑色。</p>
-<p>看了别人的writeup时，发现自己的思路没错，用别人的代码异或后，发现了黑白格子图片，而自己的依然始终为黑色。这才发现自己的代码有错，异或后的文件长度增加了几个字节。</p>
-<p>查了半天，才知道是w和wb的问题，自己之前没注意到这里。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 原始代码</span><br><span class="line">a=open(&apos;1.txt&apos;,&apos;rb&apos;).read()</span><br><span class="line">print len(a)</span><br><span class="line">cmpf=open(&apos;2.txt&apos;,&apos;w&apos;)</span><br><span class="line">xor=&apos;&apos;</span><br><span class="line">for i in range(0,len(a)):</span><br><span class="line">	aa = ord(a[i])^0xff</span><br><span class="line">	xor += chr(aa) </span><br><span class="line">cmpf.write(xor)</span><br><span class="line">cmpf.close()</span><br></pre></td></tr></table></figure>
-<p>发现当txt中为0xf5的时候，异或后写入文件的居然为两个字符，为0x0D0A。</p>
-<p>网上已经有人说了为什么了，这里自己做个笔记，也算是给自己一个教训。</p>
-<p>总结：</p>
-<ul>
-<li>w是以文本方式打开文件，wb是以二进制方式打开文件</li>
-<li>0x0A LF 表示换行， 0x0D CR表示回车， 0x1A SUB在文本文件中表示文件结束</li>
-<li>使用’r’进行读取二进制文件时，可能会出现文档读取不全的现象。 因为在python中读文件时，读到文档结束符(EOF)就认为是读到文件最后，python遇到0x1A字节就会以为文档结束。</li>
-<li>在windows中，0x0A表示换行，如果以文本方式打开文件向文件中写入数据，遇到0x0A会自动将其转为两个字符’0x0D’,’0x0A’。所以这也是为什么导致当时异或后的结果数据长度变长的原因。因为0xf5异或后为0x0a，然后自己当时的代码在写文件时是以’w’的方式来写的，所以将其转为了’0x0D’和’0x0A’。在linux上运行程序不会出现这个问题，因为linux只使用’0x0a’来表示换行。</li>
-</ul>
-<p>在读写文件要注意保持前后一致。不管是文本文件还是二进制文件统一采用二进制进行读写不会出错。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#正确代码</span><br><span class="line">a=open(&apos;1.txt&apos;,&apos;rb&apos;).read()</span><br><span class="line">print len(a)</span><br><span class="line">cmpf=open(&apos;2.txt&apos;,&apos;wb&apos;)</span><br><span class="line">xor=&apos;&apos;</span><br><span class="line">for i in range(0,len(a)):</span><br><span class="line">	aa = ord(a[i])^0xff</span><br><span class="line">	xor += chr(aa) </span><br><span class="line">cmpf.write(xor)</span><br><span class="line">cmpf.close()</span><br></pre></td></tr></table></figure>
-      
+        <div class="article-info info-on-right">
+          
+          
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/08/16/test/" class="archive-article-date">
+  	<time datetime="2018-08-16T01:35:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-16</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2018/08/16/test/">&#39;test&#39;</a>
+    </h1>
+  
+
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -218,137 +227,19 @@
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/07/26/python-走过的坑/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/08/16/test/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          &#39;test&#39;
-        
-      </div>
-    </a>
   
   
-    <a href="/2018/07/25/2018-7-21-巅峰极客/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">巅峰极客 reverse/misc</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  <!-- 来必力City版安装代码 -->
-<div id="lv-container" data-id="city" data-uid="MTAyMC8zODkzNy8xNTQ2NQ==">
-<script type="text/javascript">
-   (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
-
-       if (typeof LivereTower === 'function') { return; }
-
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-       
-       e.parentNode.insertBefore(j, e);
-   })(document, 'script');
-</script>
-<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-</div>
-<!-- City版安装代码已完成 -->
+    </div></section>
   
 
-  
-  
-  
-
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -380,8 +271,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
