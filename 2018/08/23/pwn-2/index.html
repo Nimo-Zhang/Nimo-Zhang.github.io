@@ -6,24 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>2018 wd杯（部分writeup） | Nimo-Zhang的博客</title>
+  <title>pwn(2) | Nimo-Zhang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="未完待续">
-<meta name="keywords" content="CTF">
+  <meta name="description" content="i春秋上的学习笔记">
+<meta name="keywords" content="pwn学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2018 wd杯（部分writeup）">
-<meta property="og:url" content="http://yoursite.com/2018/08/21/2018网鼎杯（部分writeup）/index.html">
+<meta property="og:title" content="pwn(2)">
+<meta property="og:url" content="http://yoursite.com/2018/08/23/pwn-2/index.html">
 <meta property="og:site_name" content="Nimo-Zhang的博客">
-<meta property="og:description" content="未完待续">
+<meta property="og:description" content="i春秋上的学习笔记">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2018/08/21/2018网鼎杯（部分writeup）/beijing1.JPG">
-<meta property="og:image" content="http://yoursite.com/2018/08/21/2018网鼎杯（部分writeup）/beijing2.JPG">
-<meta property="og:image" content="http://yoursite.com/2018/08/21/2018网鼎杯（部分writeup）/mimified1.JPG">
-<meta property="og:updated_time" content="2018-08-23T06:41:06.984Z">
+<meta property="og:image" content="http://yoursite.com/2018/08/23/pwn-2/1.png">
+<meta property="og:updated_time" content="2018-08-27T11:24:19.183Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2018 wd杯（部分writeup）">
-<meta name="twitter:description" content="未完待续">
-<meta name="twitter:image" content="http://yoursite.com/2018/08/21/2018网鼎杯（部分writeup）/beijing1.JPG">
+<meta name="twitter:title" content="pwn(2)">
+<meta name="twitter:description" content="i春秋上的学习笔记">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/23/pwn-2/1.png">
   
     <link rel="alternative" href="/atom.xml" title="Nimo-Zhang的博客" type="application/atom+xml">
   
@@ -177,31 +175,32 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-2018网鼎杯（部分writeup）" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-pwn-2" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      2018 wd杯（部分writeup）
+      pwn(2)
     </h1>
   
 
         
-        <a href="/2018/08/21/2018网鼎杯（部分writeup）/" class="archive-article-date">
-  	<time datetime="2018-08-21T01:04:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-21</time>
+        <a href="/2018/08/23/pwn-2/" class="archive-article-date">
+  	<time datetime="2018-08-23T06:46:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-23</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>未完待续<br><a id="more"></a></p>
-<p>虐得我渣渣都不剩，心灰意冷</p>
-<h2 id="re-Beijing"><a href="#re-Beijing" class="headerlink" title="re-Beijing"></a>re-Beijing</h2><p>IDA反汇编，可以看到main函数中反复调用sub_8048460函数，进入该函数可以看到根据传入参数的不同分多个case进行处理，传入参数依次为：6,9,?,1,10,?,8,?,11,2,3,1,13,4,5,2,7,2,3,1,12。将没有的记为0，得到6,9,0,1,10,0,8,0,11,2,3,1,13,4,5,2,7,2,3,1,12。<br>然后看数据段（case中进行异或的数据），将数字转为字符。<br><img src="/2018/08/21/2018网鼎杯（部分writeup）/beijing1.JPG" alt="beijing"><br>给字符按顺序编序，然后将前面得到的参数按该表进行查询得到flag。<br><img src="/2018/08/21/2018网鼎杯（部分writeup）/beijing2.JPG" alt="beijing2"></p>
-<h2 id="misc-minified"><a href="#misc-minified" class="headerlink" title="misc-minified"></a>misc-minified</h2><p>图像隐写术，LSB查看发现red低位无数据，将其他通道 plane0的图片曹村下来，使用StegSolve的Image Combinner进行对比，Alpha plane0和green plane0组合得到flag。<br><img src="/2018/08/21/2018网鼎杯（部分writeup）/mimified1.JPG" alt="minified"></p>
-<h2 id="re-advanaced"><a href="#re-advanaced" class="headerlink" title="re-advanaced"></a>re-advanaced</h2>
+        <p>i春秋上的学习笔记<br><a id="more"></a></p>
+<p>到第三部分关于ROP技术。</p>
+<p>ret指令的本质是pop eip，即把当前栈顶的内容作为内存地址进行跳转，而ROP就是利用栈溢出在栈上布置一系列内存地址，每个地址对应一个gadget，即以ret/jmp/call等指令结尾的一小段汇编指令，通过一个接一个的跳转执行某个功能。由于这些汇编指令本来就存在于指令区，肯定可以执行，而我们在栈上写入的只是内存地址，属于数据，所以这种方式可以有效绕过NX保护。</p>
+<h3 id="RedHat-2017-pwn1"><a href="#RedHat-2017-pwn1" class="headerlink" title="RedHat 2017-pwn1"></a>RedHat 2017-pwn1</h3><p>程序开启了NX enabled保护，因此需要使用ROP。<br>动态调试得到输入为52个字符后可以控制程序流程。<br><img src="/2018/08/23/pwn-2/1.png" alt="1"></p>
+<p>call指令会将call指令的下一条指令地址压入栈中，当被call调用的函数运行结束后，ret指令就会取出被call指令压入栈中的地址传给EIP。</p>
+
       
 
       
@@ -214,7 +213,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CTF</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">pwn学习</a>
         		</li>
       		
 		</ul>
@@ -270,7 +269,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/08/21/2018网鼎杯（部分writeup）/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/08/23/pwn-2/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -284,18 +283,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/08/22/pwn-1/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/09/07/bug-analysis-1/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          pwn(1)
+          bug-analysis-1
         
       </div>
     </a>
   
   
-    <a href="/2018/08/16/qwb题目梳理/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">&#39;qwb题目梳理&#39;</div>
+    <a href="/2018/08/22/pwn-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">pwn(1)</div>
       <i class="icon-circle-right"></i>
     </a>
   
